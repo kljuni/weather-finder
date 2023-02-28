@@ -1,7 +1,7 @@
 <template>
     <v-container class="fill-height">
         <v-responsive class="d-flex align-start text-center fill-height">
-            <SearchBar @request-city-wather="fetchCityWeather" />
+            <SearchBar :searchText="citySearch" @input="updateSearchField" @request-city-wather="fetchCityWeather" />
             <HistoryList v-if="locationsHistory.length > 0" @set-city-from-history="setCityFromHistory"
                 :history="locationsHistory" />
             <DisplayWeather :weatherData="selectedLocationWeather" :isLoading="isLoading" :isError="isError"
@@ -17,6 +17,7 @@ import SearchBar from '@/components/SearchBar.vue'
 import HistoryList from '@/components/HistoryList.vue'
 import DisplayWeather from '@/components/DisplayWeather.vue'
 
+const citySearch = ref("")
 const selectedLocationWeather = ref(null)
 const locationsHistory = ref([])
 const isLoading = ref(false)
@@ -29,11 +30,15 @@ if (history != null) {
     locationsHistory.value = JSON.parse(history)
 }
 
-async function fetchCityWeather(city) {
+function updateSearchField(value) {
+    citySearch.value = value
+}
+
+async function fetchCityWeather() {
     try {
         isLoading.value = true
 
-        const query = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${import.meta.env.VITE_WEATHERAPI}&units=metric`
+        const query = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch.value}&appid=${import.meta.env.VITE_WEATHERAPI}&units=metric`
         const weatherResponse = await axios.get(query)
 
         selectedLocationWeather.value = weatherResponse.data
@@ -71,7 +76,8 @@ function setCityFromHistory(id) {
     const historyData = locationsHistory.value.find(element => element.id === id)
 
     if (historyData) {
-        selectedLocationWeather.value = historyData
+        updateSearchField(historyData.name)
+        selectedLocationWeather.value = historyData        
     }
 }
 
