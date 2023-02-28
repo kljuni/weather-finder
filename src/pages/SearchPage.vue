@@ -4,11 +4,8 @@
             <SearchBar @request-city-wather="fetchCityWeather" />
             <HistoryList v-if="locationsHistory.length > 0" @set-city-from-history="setCityFromHistory"
                 :history="locationsHistory" />
-
-            <v-progress-circular v-if="isLoading" indeterminate color="primary"></v-progress-circular>
-            <DisplayWeather v-else-if="selectedLocationWeather" :weatherData="selectedLocationWeather" />
-            <v-alert v-if="isError" :text="errorMessage" color="orange" variant="tonal" class="my-5 mx-auto" dense
-                width="400"></v-alert>
+            <DisplayWeather :weatherData="selectedLocationWeather" :isLoading="isLoading" :isError="isError"
+                :errorMessage="errorMessage" />
         </v-responsive>
     </v-container>
 </template>
@@ -35,11 +32,15 @@ if (history != null) {
 async function fetchCityWeather(city) {
     try {
         isLoading.value = true
+
         const query = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${import.meta.env.VITE_WEATHERAPI}&units=metric`
         const weatherResponse = await axios.get(query)
+
         selectedLocationWeather.value = weatherResponse.data
         isError.value = false
+
         addWeatherDataToHistory(weatherResponse.data)
+
         return true
     } catch (error) {
         handleCityRequestError(error)
@@ -61,12 +62,14 @@ function addWeatherDataToHistory(weatherData) {
     }
 
     locationsHistory.value.unshift(weatherData)
+    
     const historyString = JSON.stringify(locationsHistory.value)
     window.localStorage.setItem("history", historyString)
 }
 
 function setCityFromHistory(id) {
     const historyData = locationsHistory.value.find(element => element.id === id)
+
     if (historyData) {
         selectedLocationWeather.value = historyData
     }

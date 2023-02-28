@@ -2,7 +2,6 @@
 - create a .env.local file in root directory
 - add your api key into the created env file in format ```VITE_WEATHERAPI=paste_your_api_key_here```
 
-
 ## Project setup
 
 ```
