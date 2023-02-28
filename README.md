@@ -1,4 +1,7 @@
-# default
+## Getting started
+- create a .env.local file in root directory
+- add your api key into the created env file in format ```VITE_WEATHERAPI=paste_your_api_key_here```
+
 
 ## Project setup
 
@@ -25,20 +28,3 @@ npm run dev
 # pnpm
 pnpm dev
 ```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).

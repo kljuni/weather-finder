@@ -8,7 +8,7 @@
 
 
 <script setup>
-import { defineEmits, ref } from 'vue'
+import { ref } from 'vue'
 
 let citySearch = ref("")
 

@@ -11,8 +11,6 @@
 
 
 <script setup>
-import { defineEmits } from 'vue'
-
 const emit = defineEmits(['set-city-from-history']);
 
 const props = defineProps({

@@ -7,5 +7,5 @@
 </template>
 
 <script setup>
-  import SearchPage from '@/pages/Home.vue'
+  import SearchPage from '@/pages/SearchPage.vue'
 </script>
