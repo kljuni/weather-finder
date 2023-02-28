@@ -1,7 +1,9 @@
 <template>
+    <v-card class="my-5 mx-auto" max-width="400">
     <v-text-field v-model="citySearch" density="compact" variant="solo" label="Search cities"
         append-inner-icon="mdi-magnify" single-line hide-details @keydown.enter.prevent="fetchMethod"
         @click:append-inner="fetchMethod"></v-text-field>
+    </v-card>
 </template>
 
 
